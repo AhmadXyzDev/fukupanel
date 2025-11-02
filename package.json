@@ -1,0 +1,16 @@
+{
+  "name": "fukushima-panel-installer",
+  "version": "1.0.0",
+  "description": "Fukushima Panel Installer Website",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
