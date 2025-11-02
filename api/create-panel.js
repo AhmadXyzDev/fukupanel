@@ -53,25 +53,35 @@ module.exports = async (req, res) => {
     const email = username + "@gmail.com";
 
     // Create user
-    const userResponse = await fetch(config.domain + "/api/application/users", {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + config.apikey
-      },
-      body: JSON.stringify({
-        "email": email,
-        "username": username,
-        "first_name": username,
-        "last_name": "Server",
-        "language": "en",
-        "password": password
-      })
-    });
+  const userResponse = await fetch(config.domain + "/api/application/users", {
+  method: "POST",
+  headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + config.apikey
+  },
+  body: JSON.stringify({
+    email,
+    username,
+    first_name: username,
+    last_name: "Server",
+    language: "en",
+    password
+  })
+});
 
-    const userData = await userResponse.json();
-    
+if (!userResponse.ok) {
+  const text = await userResponse.text();
+  console.error('User creation failed:', text);
+  return res.status(userResponse.status).json({
+    success: false,
+    error: 'Gagal membuat user: ' + text
+  });
+}
+
+const userData = await userResponse.json(); 
+   
+
     if (userData.errors) {
       return res.status(400).json({ 
         success: false, 
